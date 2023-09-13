@@ -23,10 +23,7 @@ class ParkingLotTest {
     @Test
     public void shouldReturnFalseIfParkedBeyondCapacity() {
         final ParkingLot lot = new ParkingLot(1);
-        final Parkable car1 = new Car();
         final Parkable car2 = new Car();
-
-        lot.park(car1);
 
         assertThrows(ParkingFullException.class,() -> lot.park(car2));
     }
@@ -56,5 +53,20 @@ class ParkingLotTest {
         final Parkable car1 = new Car();
 
         assertThrows(ParkableNotFoundException.class, () -> lot.unpark(car1));
+    }
+
+    @Test
+    public void shouldNotifyWhenParkingIsFull() {
+        final ParkingLot lot = new ParkingLot(1);
+        final Parkable car1 = new Car();
+
+        assertThrows(ParkingFullException.class, () -> lot.park(car1));
+    }
+
+    @Test
+    public void shouldReturnFalseIfParkingIsNotFull() {
+        final ParkingLot lot = new ParkingLot(1);
+
+        assertDoesNotThrow(lot::isParkingFull);
     }
 }

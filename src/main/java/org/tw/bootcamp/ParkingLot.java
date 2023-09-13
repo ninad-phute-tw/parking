@@ -20,7 +20,13 @@ public class ParkingLot {
         int freeSlotIndex = getFreeSlot();
         if(freeSlotIndex != -1) {
             slots[freeSlotIndex] = parkable;
-        } else {
+            isParkingFull();
+        }
+    }
+
+    public void isParkingFull() {
+        int currentIndex = getFreeSlot();
+        if(currentIndex == -1) {
             throw new ParkingFullException("No parking slot available");
         }
     }
@@ -52,4 +58,5 @@ public class ParkingLot {
         }
         return -1;
     }
+
 }
