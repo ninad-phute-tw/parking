@@ -8,7 +8,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class ParkingLotTest {
 
     @Test
-    public void shouldParkTheCarAndReturnTrueIfSlotIsFree() {
+    public void shouldParkTheCarAndReturnValidSlotIdSlotIsFree() {
         final ParkingLot lot = new ParkingLot(5);
 
         lot.park();
@@ -17,7 +17,7 @@ class ParkingLotTest {
     }
 
     @Test
-    public void shouldReturnFalseIfParkedBeyondCapacity() {
+    public void shouldReturnMinus1IfParkingFailed() {
         final ParkingLot lot = new ParkingLot(1);
 
         lot.park();
@@ -33,7 +33,7 @@ class ParkingLotTest {
     }
 
     @Test
-    public void shouldNotThrowExceptionIfVehicleIsCorrectlyUnparked() {
+    public void shouldNotThrowExceptionIfVehicleIsUnparked() {
         final ParkingLot lot = new ParkingLot(5);
 
         final int slotId = lot.park();
@@ -42,7 +42,7 @@ class ParkingLotTest {
     }
 
     @Test
-    public void shouldThrowExceptionIfVehicleIsIncorrectlyUnparked() {
+    public void shouldThrowExceptionIfVehicleUnparkingFailed() {
         final ParkingLot lot = new ParkingLot(5);
 
         assertThrows(InvalidParkingSlotException.class, () -> lot.unpark(1));
