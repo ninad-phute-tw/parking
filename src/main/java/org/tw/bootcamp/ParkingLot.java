@@ -1,10 +1,15 @@
 package org.tw.bootcamp;
 
+import org.tw.bootcamp.model.Parkable;
+
+import java.util.HashMap;
+import java.util.Map;
+
 public class ParkingLot {
 
+    private final Map<Integer, Parkable> slotMap = new HashMap<>();
     private int currentCapacity;
 
-    // TODO QUERY discuss from the perspective of "unpark()" functionality in the future
     private final int totalCapacity;
 
     public ParkingLot(int capacity) {
@@ -12,11 +17,16 @@ public class ParkingLot {
         this.currentCapacity = capacity;
     }
 
-    public boolean park() {
+    public Integer park(Parkable parkable) {
         if(currentCapacity != 0) {
             --currentCapacity;
-            return true;
+            if(!slotMap.containsKey(currentCapacity)) {
+                slotMap.put(currentCapacity, parkable);
+                return currentCapacity;
+            }
         }
-        return false;
+        return -1;
     }
+
+
 }
