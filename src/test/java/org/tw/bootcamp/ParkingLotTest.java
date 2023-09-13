@@ -8,9 +8,20 @@ class ParkingLotTest {
 
     @Test
     public void shouldParkTheCarAndReturnTrueIfSlotIsFree() {
-        final ParkingLot lot = new ParkingLot();
-        final Car car = new Car("C1");
+        final ParkingLot lot = new ParkingLot(5);
 
-        assertTrue(lot.parkCar(car));
+        // TODO multiple asserts okay with single TC?
+        assertTrue(lot.park());
+        assertTrue(lot.park());
+    }
+
+    @Test
+    public void shouldReturnFalseIfParkedBeyondCapacity() {
+        final ParkingLot lot = new ParkingLot(1);
+
+        // TODO multiple asserts okay with single TC? assertTrue(lot.park());
+        lot.park();
+
+        assertFalse(lot.park());
     }
 }

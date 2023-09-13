@@ -1,16 +1,17 @@
 package org.tw.bootcamp;
 
-import java.util.HashMap;
-import java.util.Map;
-
 public class ParkingLot {
-    private static final Map<Integer, Car> slots = new HashMap<>();
 
-    private int currentSlot = -1;
+    private int capacity;
 
-    public boolean parkCar(Car car) {
-        if(!slots.containsKey(++currentSlot)) {
-            return slots.put(currentSlot, car) == null;
+    public ParkingLot(int capacity) {
+        this.capacity = capacity;
+    }
+
+    public boolean park() {
+        if(capacity != 0) {
+            --capacity;
+            return true;
         }
         return false;
     }
