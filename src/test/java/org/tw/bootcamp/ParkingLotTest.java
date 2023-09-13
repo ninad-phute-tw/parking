@@ -1,8 +1,7 @@
 package org.tw.bootcamp;
 
 import org.junit.jupiter.api.Test;
-import org.tw.bootcamp.model.Car;
-import org.tw.bootcamp.model.Parkable;
+import org.tw.bootcamp.exception.InvalidParkingSlotException;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -11,33 +10,41 @@ class ParkingLotTest {
     @Test
     public void shouldParkTheCarAndReturnTrueIfSlotIsFree() {
         final ParkingLot lot = new ParkingLot(5);
-        final Parkable car1 = new Car();
-        final Parkable car2 = new Car();
 
-        lot.park(car1);
+        lot.park();
 
-        assertNotEquals(-1, lot.park(car2));
+        assertNotEquals(-1, lot.park());
     }
 
     @Test
     public void shouldReturnFalseIfParkedBeyondCapacity() {
         final ParkingLot lot = new ParkingLot(1);
-        final Parkable car1 = new Car();
-        final Parkable car2 = new Car();
 
-        lot.park(car1);
+        lot.park();
 
-        assertNotEquals(-1, lot.park(car2));
+        assertEquals(-1, lot.park());
     }
 
     @Test
     public void shouldReturnTrueIfVehicleIsParked() {
         final ParkingLot lot = new ParkingLot(5);
-        final Parkable car1 = new Car();
-
-        final int slotId = lot.park(car1);
-
-        assertNotEquals(-1, slotId);
+        final int slotId = lot.park();
+        assertTrue(lot.isVehicleParked(slotId));
     }
 
+    @Test
+    public void shouldNotThrowExceptionIfVehicleIsCorrectlyUnparked() {
+        final ParkingLot lot = new ParkingLot(5);
+
+        final int slotId = lot.park();
+
+        assertDoesNotThrow(() -> lot.unpark(slotId));
+    }
+
+    @Test
+    public void shouldThrowExceptionIfVehicleIsIncorrectlyUnparked() {
+        final ParkingLot lot = new ParkingLot(5);
+
+        assertThrows(InvalidParkingSlotException.class, () -> lot.unpark(1));
+    }
 }
