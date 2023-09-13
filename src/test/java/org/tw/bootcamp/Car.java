@@ -1,4 +1,6 @@
-package org.tw.bootcamp.model;
+package org.tw.bootcamp;
+
+import org.tw.bootcamp.model.Parkable;
 
 import java.util.Objects;
 
