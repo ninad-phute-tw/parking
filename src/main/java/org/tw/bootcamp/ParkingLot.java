@@ -4,16 +4,20 @@ import org.tw.bootcamp.exception.ParkableNotFoundException;
 import org.tw.bootcamp.exception.ParkingFullException;
 import org.tw.bootcamp.model.Parkable;
 
-import java.util.HashMap;
-import java.util.Map;
-
 public class ParkingLot {
 
     private final Parkable[] slots;
     private int currentCapacity;
 
+    private final ParkingNotificationCenter notificationCenter;
+
     public ParkingLot(int capacity) {
         slots = new Parkable[capacity];
+        notificationCenter = new ParkingNotificationCenter();
+    }
+
+    public void publishNotification() {
+
     }
 
     public void park(Parkable parkable) {

@@ -57,7 +57,9 @@ class ParkingLotTest {
 
     @Test
     public void shouldNotifyWhenParkingIsFull() {
+        final ParkingNotificationCenter notificationCenter = new ParkingNotificationCenter();
         final ParkingLot lot = new ParkingLot(1);
+
         final Parkable car1 = new Car();
 
         assertThrows(ParkingFullException.class, () -> lot.park(car1));
