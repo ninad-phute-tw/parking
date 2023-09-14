@@ -24,8 +24,12 @@ public class ParkingLot {
         int freeSlotIndex = getFreeSlot();
         if(freeSlotIndex != -1) {
             slots[freeSlotIndex] = parkable;
-            isParkingFull();
+            notifyThatParkingIsFull();
         }
+    }
+
+    public void notifyThatParkingIsFull() {
+        notificationCenter.sendUpdate("Parking is full");
     }
 
     public boolean isParkingFull() {
@@ -61,4 +65,7 @@ public class ParkingLot {
         return -1;
     }
 
+    public ParkingNotificationCenter getNotificationCenter() {
+        return notificationCenter;
+    }
 }

@@ -7,19 +7,19 @@ import java.util.List;
 public class ParkingNotificationCenter {
 
     private String message;
-    private final List<ParkingNotificationListener> listeners = new ArrayList<>();
+    private final List<ParkingLotObserver> listeners = new ArrayList<>();
 
-    public void register(ParkingNotificationListener listener) {
+    public void register(ParkingLotObserver listener) {
         listeners.add(listener);
     }
 
-    public void deregister(ParkingNotificationListener listener) {
+    public void deregister(ParkingLotObserver listener) {
         listeners.remove(listener);
     }
 
     public void sendUpdate(String message) {
         this.message = message;
-        for (ParkingNotificationListener listener : listeners) {
+        for (ParkingLotObserver listener : listeners) {
             listener.notifyParkingStatus(message);
         }
     }

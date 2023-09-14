@@ -1,6 +1,7 @@
 package org.tw.bootcamp;
 
 import org.junit.jupiter.api.Test;
+import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.tw.bootcamp.exception.ParkableNotFoundException;
 import org.tw.bootcamp.exception.ParkingFullException;
@@ -29,11 +30,12 @@ class ParkingLotTest {
     public void shouldReturnFalseIfParkedBeyondCapacity() {
         final ParkingLot lot = new ParkingLot(1);
         final Parkable car2 = new Car();
-        final Owner owner = new Owner();
+        final Owner owner = Mockito.mock(Owner.class);
+        lot.getNotificationCenter().register(owner);
 
         lot.park(car2);
-//        assertThrows(ParkingFullException.class,() -> );
-        Mockito.verify(owner, Mockito.times(0)).notifyParkingStatus("Parking full");
+
+        Mockito.verify(owner, Mockito.times(1)).notifyParkingStatus("Parking is full");
     }
 
     @Test
@@ -65,21 +67,23 @@ class ParkingLotTest {
 
     @Test
     public void shouldNotifyWhenParkingIsFull() {
-        final ParkingNotificationCenter notificationCenter = new ParkingNotificationCenter();
         final ParkingLot lot = new ParkingLot(1);
-
         final Parkable car1 = new Car();
+        final Owner owner = Mockito.mock(Owner.class);
+        lot.getNotificationCenter().register(owner);
 
-        assertThrows(ParkingFullException.class, () -> lot.park(car1));
+        lot.park(car1);
+
+        Mockito.verify(owner, Mockito.times(1)).notifyParkingStatus("Parking is full");
     }
 
-//    @Test
-//    public void shouldReturnFalseIfParkingIsNotFull() {
-//        final ParkingLot lot = new ParkingLot(1);
-//
-//        assertDoesNotThrow(lot::isParkingFull);
-//    }
-//
+    @Test
+    public void shouldReturnFalseIfParkingIsNotFull() {
+        final ParkingLot lot = new ParkingLot(1);
+
+        assertDoesNotThrow(lot::isParkingFull);
+    }
+
 
     @Test
     public void shouldReturnTrueIfValetFindsAvailableSlotInAnyParkingLot() {
