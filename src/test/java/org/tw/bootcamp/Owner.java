@@ -1,6 +1,6 @@
 package org.tw.bootcamp;
 
-public class Owner {
+public class Owner implements ParkingLotObserver {
 
     private String message;
 
@@ -15,4 +15,6 @@ public class Owner {
     public void setMessage(String message) {
         this.message = message;
     }
+
+
 }

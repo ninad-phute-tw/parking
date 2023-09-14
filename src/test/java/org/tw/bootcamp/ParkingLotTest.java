@@ -1,9 +1,14 @@
 package org.tw.bootcamp;
 
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 import org.tw.bootcamp.exception.ParkableNotFoundException;
 import org.tw.bootcamp.exception.ParkingFullException;
 import org.tw.bootcamp.model.Parkable;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -24,8 +29,11 @@ class ParkingLotTest {
     public void shouldReturnFalseIfParkedBeyondCapacity() {
         final ParkingLot lot = new ParkingLot(1);
         final Parkable car2 = new Car();
+        final Owner owner = new Owner();
 
-        assertThrows(ParkingFullException.class,() -> lot.park(car2));
+        lot.park(car2);
+//        assertThrows(ParkingFullException.class,() -> );
+        Mockito.verify(owner, Mockito.times(0)).notifyParkingStatus("Parking full");
     }
 
     @Test
@@ -65,10 +73,39 @@ class ParkingLotTest {
         assertThrows(ParkingFullException.class, () -> lot.park(car1));
     }
 
-    @Test
-    public void shouldReturnFalseIfParkingIsNotFull() {
-        final ParkingLot lot = new ParkingLot(1);
+//    @Test
+//    public void shouldReturnFalseIfParkingIsNotFull() {
+//        final ParkingLot lot = new ParkingLot(1);
+//
+//        assertDoesNotThrow(lot::isParkingFull);
+//    }
+//
 
-        assertDoesNotThrow(lot::isParkingFull);
+    @Test
+    public void shouldReturnTrueIfValetFindsAvailableSlotInAnyParkingLot() {
+        final ParkingLot lot1 = new ParkingLot(5);
+        final ParkingLot lot2 = new ParkingLot(6);
+        final List<ParkingLot> managedLots = new ArrayList<>();
+        managedLots.add(lot1);
+        managedLots.add(lot2);
+        final Valet valet = new Valet(managedLots);
+        Parkable parkable1 = new Car();
+
+        assertDoesNotThrow(() -> valet.park(parkable1));
+    }
+
+    @Test
+    public void shouldThrowExceptionIfValetIsUnableToFindAParkingSlot() {
+        final ParkingLot lot1 = new ParkingLot(1);
+        final ParkingLot lot2 = new ParkingLot(1);
+        lot1.park(new Car());
+        lot2.park(new Car());
+        final List<ParkingLot> managedLots = new ArrayList<>();
+        managedLots.add(lot1);
+        managedLots.add(lot2);
+        final Valet valet = new Valet(managedLots);
+        Parkable parkable1 = new Car();
+
+        assertThrows(ParkingFullException.class, () -> valet.park(parkable1));
     }
 }

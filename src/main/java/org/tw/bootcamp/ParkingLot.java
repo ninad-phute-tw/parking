@@ -28,11 +28,9 @@ public class ParkingLot {
         }
     }
 
-    public void isParkingFull() {
+    public boolean isParkingFull() {
         int currentIndex = getFreeSlot();
-        if(currentIndex == -1) {
-            throw new ParkingFullException("No parking slot available");
-        }
+        return currentIndex == -1;
     }
 
     public boolean isParkablePresent(Parkable parkable) {
